@@ -1,0 +1,70 @@
+{
+  "name": "vitest-browser-react",
+  "type": "module",
+  "version": "0.0.1",
+  "description": "Render React components in Vitest Browser Mode",
+  "author": "Vitest Team",
+  "license": "MIT",
+  "funding": "https://opencollective.com/vitest",
+  "homepage": "https://github.com/vitest-dev/vitest-browser-react#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vitest-dev/vitest-browser-react.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vitest-dev/vitest-browser-react/issues"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "*.d.ts",
+    "*.mjs",
+    "dist"
+  ],
+  "engines": {
+    "node": "^18.0.0 || >=20.0.0"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch --sourcemap"
+  },
+  "peerDependencies": {
+    "@types/react": ">18.0.0",
+    "@types/react-dom": ">18.0.0",
+    "@vitest/browser": "^2.0.5",
+    "react": ">18.0.0",
+    "react-dom": ">18.0.0",
+    "vitest": "^2.0.5"
+  },
+  "peerDependenciesMeta": {
+    "@types/react": {
+      "optional": true
+    },
+    "@types/react-dom": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@vitest/pretty-format": "^2.0.5",
+    "vitest-browser-utils": "^0.0.1"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^2.24.1",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.3.0",
+    "@vitest/browser": "^2.0.5",
+    "eslint": "^9.8.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "tsup": "^8.2.4",
+    "typescript": "^5.5.4",
+    "vitest": "^2.0.5"
+  }
+}
