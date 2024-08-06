@@ -37,11 +37,9 @@ export default defineConfig({
 import { page } from '@vitest/browser/context'
 
 test('counter button increments the count', async () => {
-  const screen = render(<Component count={1} />)
+  const screen = page.render(<Component count={1} />)
 
-  // or
   screen.cleanup()
-  page.cleanup()
 })
 ```
 
