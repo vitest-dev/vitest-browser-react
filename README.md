@@ -9,7 +9,7 @@ import { render } from 'vitest-browser-react'
 import { expect, test } from 'vitest'
 
 test('counter button increments the count', async () => {
-  const screen = await render(<Component count={1} />)
+  const screen = render(<Component count={1} />)
 
   await screen.getByRole('button', { name: 'Increment' }).click()
 
@@ -37,7 +37,7 @@ export default defineConfig({
 import { page } from '@vitest/browser/context'
 
 test('counter button increments the count', async () => {
-  const screen = await render(<Component count={1} />)
+  const screen = render(<Component count={1} />)
 
   // or
   screen.cleanup()
