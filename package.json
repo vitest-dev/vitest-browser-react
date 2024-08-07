@@ -33,15 +33,20 @@
   },
   "scripts": {
     "build": "tsup",
-    "dev": "tsup --watch --sourcemap"
+    "dev": "tsup --watch --sourcemap",
+    "test": "vitest",
+    "publish-ci": "tsx scripts/publish-ci.ts",
+    "release": "tsx scripts/release.ts",
+    "lint": "eslint --cache .",
+    "lint:fix": "pnpm lint --fix"
   },
   "peerDependencies": {
     "@types/react": ">18.0.0",
     "@types/react-dom": ">18.0.0",
-    "@vitest/browser": "^2.0.5",
+    "@vitest/browser": "^2.1.0-beta.4",
     "react": ">18.0.0",
     "react-dom": ">18.0.0",
-    "vitest": "^2.0.5"
+    "vitest": "^2.1.0-beta.4"
   },
   "peerDependenciesMeta": {
     "@types/react": {
@@ -51,20 +56,17 @@
       "optional": true
     }
   },
-  "dependencies": {
-    "@vitest/pretty-format": "^2.0.5",
-    "vitest-browser-utils": "^0.0.1"
-  },
   "devDependencies": {
     "@antfu/eslint-config": "^2.24.1",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.3.0",
-    "@vitest/browser": "^2.0.5",
+    "@vitest/browser": "^2.1.0-beta.4",
     "eslint": "^9.8.0",
+    "playwright": "^1.46.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "tsup": "^8.2.4",
     "typescript": "^5.5.4",
-    "vitest": "^2.0.5"
+    "vitest": "^2.1.0-beta.4"
   }
 }

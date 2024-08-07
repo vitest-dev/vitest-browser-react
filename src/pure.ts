@@ -1,9 +1,8 @@
 import type { Locator, LocatorSelectors } from '@vitest/browser/context'
-import { type PrettyFormatOptions, debug, getElementLocatorSelectors } from 'vitest-browser-utils'
+import { type PrettyDOMOptions, debug, getElementLocatorSelectors } from '@vitest/browser/utils'
 import React from 'react'
 import type { Container } from 'react-dom/client'
 import ReactDOMClient from 'react-dom/client'
-import ReactTestUtils from 'react-dom/test-utils'
 
 export interface Screen extends LocatorSelectors {
   container: HTMLElement
@@ -11,7 +10,7 @@ export interface Screen extends LocatorSelectors {
   debug: (
     el?: HTMLElement | HTMLElement[] | Locator | Locator[],
     maxLength?: number,
-    options?: PrettyFormatOptions
+    options?: PrettyDOMOptions
   ) => void
   unmount: () => void
   rerender: (ui: React.ReactNode) => void
@@ -23,11 +22,6 @@ export interface ComponentRenderOptions {
   baseElement?: HTMLElement
   wrapper?: React.JSXElementConstructor<{ children: React.ReactNode }>
 }
-
-export const act: {
-  (callback: () => void): void
-  <T>(callback: () => T | Promise<T>): Promise<T>
-} = React.act || ReactTestUtils.act
 
 // Ideally we'd just use a WeakMap where containers are keys and roots are values.
 // We use two variables so that we can bail out in constant time when we render with a new container (most common use case)
@@ -73,27 +67,21 @@ export function render(
     })
   }
 
-  act(() => {
-    root.render(
-      strictModeIfNeeded(wrapUiIfNeeded(ui, WrapperComponent)),
-    )
-  })
+  root!.render(
+    strictModeIfNeeded(wrapUiIfNeeded(ui, WrapperComponent)),
+  )
 
   return {
     container,
     baseElement,
     debug: (el, maxLength, options) => debug(el, maxLength, options),
     unmount: () => {
-      act(() => {
-        root.unmount()
-      })
+      root.unmount()
     },
     rerender: (newUi: React.ReactNode) => {
-      act(() => {
-        root.render(
-          strictModeIfNeeded(wrapUiIfNeeded(newUi, WrapperComponent)),
-        )
-      })
+      root.render(
+        strictModeIfNeeded(wrapUiIfNeeded(newUi, WrapperComponent)),
+      )
     },
     asFragment: () => {
       return document.createRange().createContextualFragment(container.innerHTML)
@@ -104,9 +92,7 @@ export function render(
 
 export function cleanup(): void {
   mountedRootEntries.forEach(({ root, container }) => {
-    act(() => {
-      root.unmount()
-    })
+    root.unmount()
     if (container.parentNode === document.body) {
       document.body.removeChild(container)
     }
