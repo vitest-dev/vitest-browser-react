@@ -4,7 +4,7 @@ import React from 'react'
 import type { Container } from 'react-dom/client'
 import ReactDOMClient from 'react-dom/client'
 
-export interface Screen extends LocatorSelectors {
+export interface RenderResult extends LocatorSelectors {
   container: HTMLElement
   baseElement: HTMLElement
   debug: (
@@ -34,7 +34,7 @@ const mountedRootEntries: {
 export function render(
   ui: React.ReactNode,
   { container, baseElement, wrapper: WrapperComponent }: ComponentRenderOptions = {},
-): Screen {
+): RenderResult {
   if (!baseElement) {
     // default to document.body instead of documentElement to avoid output of potentially-large
     // head elements (such as JSS style blocks) in debug output
