@@ -17,6 +17,9 @@ test('counter button increments the count', async () => {
 })
 ```
 
+> [!NOTE]
+> This library doesn't expose or use React's `act`. Instead, you should use Vitest's locators and `expect.element` API that have [retry-ability mechanism](https://vitest.dev/guide/browser/assertion-api) baked in.
+
 `vitest-browser-react` also automatically injects `render` and `cleanup` methods on the `page`. Example:
 
 ```ts
