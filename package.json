@@ -15,6 +15,12 @@
   "bugs": {
     "url": "https://github.com/vitest-dev/vitest-browser-react/issues"
   },
+  "keywords": [
+    "react",
+    "vitest",
+    "browser",
+    "testing"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
