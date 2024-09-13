@@ -139,6 +139,6 @@ function wrapUiIfNeeded(innerElement: React.ReactNode, wrapperComponent?: React.
     : innerElement
 }
 
-export function configure(config: Partial<RenderConfiguration>): void {
-  Object.assign(config, config)
+export function configure(customConfig: Partial<RenderConfiguration>): void {
+  Object.assign(config, customConfig)
 }
