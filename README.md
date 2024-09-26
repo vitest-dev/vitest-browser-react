@@ -32,6 +32,10 @@ export default defineConfig({
     // "compilerOptions.types" in your tsconfig or
     // import `vitest-browser-react` manually so TypeScript can pick it up
     setupFiles: ['vitest-browser-react'],
+    browser: {
+      browser: 'chromium',
+      enabled: true,
+    },
   },
 })
 ```
