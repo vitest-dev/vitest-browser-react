@@ -2,6 +2,8 @@
 
 Render React components in Vitest Browser Mode. This library follows `testing-library` principles and exposes only [locators](https://vitest.dev/guide/browser/locators) and utilities that encourage you to write tests that closely resemble how your React components are used.
 
+`vitest-browser-react` aims to deliver a good developer experience in Vitest Browser Mode by incorporating the [locators API](https://vitest.dev/guide/browser/locators.html) and [retry-ability](https://vitest.dev/guide/browser/assertion-api.html) mechanism directly into the `render` result. This allows you to call user methods without needing to verify the element's existence or wait for external events (like API calls) to render the element.
+
 Requires `vitest` and `@vitest/browser` 2.1.0 or higher.
 
 ```tsx
@@ -28,16 +30,17 @@ import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
   test: {
-    // if the types are not picked up, add `vitest-browser-react` to
-    // "compilerOptions.types" in your tsconfig or
-    // import `vitest-browser-react` manually so TypeScript can pick it up
-    setupFiles: ['vitest-browser-react'],
+    setupFiles: ['./setup-file.ts'],
     browser: {
       name: 'chromium',
       enabled: true,
     },
   },
 })
+
+// ./setup-file.ts
+// add an import at the top of your setup file so TypeScript can pick up types
+import 'vitest-browser-react'
 ```
 
 ```tsx
@@ -50,7 +53,20 @@ test('counter button increments the count', async () => {
 })
 ```
 
-Unlike `@testing-library/react`, `vitest-browser-react` cleans up the component before the test starts instead of after, so you can see the rendered result in your UI. To avoid auto-cleanup, import the `render` function from `vitest-browser-react/pure`.
+Unlike `@testing-library/react`, `vitest-browser-react` performs cleanup of the component before the test begins, allowing you to see the rendered result in your UI. If you prefer to disable auto-cleanup, you can import the `render` function from `vitest-browser-react/pure`.
+
+## Configuration
+
+You can configure if the component should be rendered in Strict Mode with `configure` method from `vitest-browser-react/pure`:
+
+```ts
+import { configure } from 'vitest-browser-react/pure'
+
+configure({
+  // disabled by default
+  reactStrictMode: true,
+})
+```
 
 ## Special thanks
 

@@ -37,6 +37,7 @@ export default antfu(
           paths: ['path'],
         },
       ],
+      'import/first': 'off',
 
       'import/no-named-as-default': 'off',
     },
