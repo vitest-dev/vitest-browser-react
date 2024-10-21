@@ -4,6 +4,15 @@ import React from 'react'
 import type { Container } from 'react-dom/client'
 import ReactDOMClient from 'react-dom/client'
 
+// we call act only when rendering to flush any possible effects
+// usually the async nature of Vitest browser mode ensures consistency,
+// but rendering is sync and controlled by React directly
+function act(cb: () => unknown) {
+  ;(globalThis as any).IS_REACT_ACT_ENVIRONMENT = true
+  React.act(cb)
+  ;(globalThis as any).IS_REACT_ACT_ENVIRONMENT = false
+}
+
 export interface RenderResult extends LocatorSelectors {
   container: HTMLElement
   baseElement: HTMLElement
@@ -67,9 +76,11 @@ export function render(
     })
   }
 
-  root!.render(
-    strictModeIfNeeded(wrapUiIfNeeded(ui, WrapperComponent)),
-  )
+  act(() => {
+    root!.render(
+      strictModeIfNeeded(wrapUiIfNeeded(ui, WrapperComponent)),
+    )
+  })
 
   return {
     container,
@@ -79,9 +90,11 @@ export function render(
       root.unmount()
     },
     rerender: (newUi: React.ReactNode) => {
-      root.render(
-        strictModeIfNeeded(wrapUiIfNeeded(newUi, WrapperComponent)),
-      )
+      act(() => {
+        root.render(
+          strictModeIfNeeded(wrapUiIfNeeded(newUi, WrapperComponent)),
+        )
+      })
     },
     asFragment: () => {
       return document.createRange().createContextualFragment(container.innerHTML)
