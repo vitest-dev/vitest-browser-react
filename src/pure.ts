@@ -8,9 +8,16 @@ import ReactDOMClient from 'react-dom/client'
 // usually the async nature of Vitest browser mode ensures consistency,
 // but rendering is sync and controlled by React directly
 function act(cb: () => unknown) {
-  ;(globalThis as any).IS_REACT_ACT_ENVIRONMENT = true
-  React.act(cb)
-  ;(globalThis as any).IS_REACT_ACT_ENVIRONMENT = false
+  // @ts-expect-error unstable_act is not typed, but exported
+  const act = React.act || React.unstable_act
+  if (!act) {
+    cb()
+  }
+  else {
+    (globalThis as any).IS_REACT_ACT_ENVIRONMENT = true
+    act(cb)
+    ;(globalThis as any).IS_REACT_ACT_ENVIRONMENT = false
+  }
 }
 
 export interface RenderResult extends LocatorSelectors {
