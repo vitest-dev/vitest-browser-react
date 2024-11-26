@@ -1,7 +1,7 @@
 {
   "name": "vitest-browser-react",
   "type": "module",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "packageManager": "pnpm@9.6.0",
   "description": "Render React components in Vitest Browser Mode",
   "author": "Vitest Team",
