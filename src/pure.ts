@@ -9,13 +9,13 @@ import ReactDOMClient from 'react-dom/client'
 // but rendering is sync and controlled by React directly
 function act(cb: () => unknown) {
   // @ts-expect-error unstable_act is not typed, but exported
-  const act = React.act || React.unstable_act
-  if (!act) {
+  const _act = React.act || React.unstable_act
+  if (typeof _act !== 'function') {
     cb()
   }
   else {
     (globalThis as any).IS_REACT_ACT_ENVIRONMENT = true
-    act(cb)
+    _act(cb)
     ;(globalThis as any).IS_REACT_ACT_ENVIRONMENT = false
   }
 }
@@ -94,7 +94,9 @@ export function render(
     baseElement,
     debug: (el, maxLength, options) => debug(el, maxLength, options),
     unmount: () => {
-      root.unmount()
+      act(() => {
+        root.unmount()
+      })
     },
     rerender: (newUi: React.ReactNode) => {
       act(() => {
@@ -112,7 +114,9 @@ export function render(
 
 export function cleanup(): void {
   mountedRootEntries.forEach(({ root, container }) => {
-    root.unmount()
+    act(() => {
+      root.unmount()
+    })
     if (container.parentNode === document.body) {
       document.body.removeChild(container)
     }
