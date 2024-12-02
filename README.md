@@ -19,7 +19,7 @@ test('counter button increments the count', async () => {
 })
 ```
 
-> 💡 This library doesn't expose React's act and uses it only to flush operations happening as part of useEffect during initial rendering and unmouting.
+> 💡 This library doesn't expose React's act and uses it only to flush operations happening as part of useEffect during initial rendering and unmouting.  
 Other use cases are handled by CDP and expect.element which both have built-in [retry-ability mechanism](https://vitest.dev/guide/browser/assertion-api).
 
 `vitest-browser-react` also automatically injects `render` method on the `page`. Example:
