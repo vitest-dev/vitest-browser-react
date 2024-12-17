@@ -19,7 +19,7 @@ test('renders counter', async () => {
   await expect.element(screen.getByText('Count is 2')).toBeVisible()
 })
 
-test('renders a suspended component', async () => {
+test('renders child component on mount for suspense boundary which is not suspending', async () => {
   const { getByText } = await render(<HelloWorld name="Vitest" />, {
     wrapper: ({ children }) => (
       <Suspense fallback={<div>Suspended!</div>}>{children}</Suspense>
