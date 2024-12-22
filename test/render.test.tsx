@@ -4,6 +4,7 @@ import { page } from '@vitest/browser/context'
 import { render } from '../src/index'
 import { HelloWorld } from './fixtures/HelloWorld'
 import { Counter } from './fixtures/Counter'
+import { SuspendedHelloWorld } from './fixtures/SuspendedHelloWorld'
 
 test('renders simple component', async () => {
   const screen = await render(<HelloWorld />)
@@ -19,11 +20,12 @@ test('renders counter', async () => {
   await expect.element(screen.getByText('Count is 2')).toBeVisible()
 })
 
-test('renders child component on mount for suspense boundary which is not suspending', async () => {
-  const { getByText } = await render(<HelloWorld name="Vitest" />, {
+test('waits for suspended boundaries', async () => {
+  const { getByText } = await render(<SuspendedHelloWorld name="Vitest" />, {
     wrapper: ({ children }) => (
       <Suspense fallback={<div>Suspended!</div>}>{children}</Suspense>
     ),
   })
+  await expect.element(getByText('Suspended!')).toBeInTheDocument()
   await expect.element(getByText('Hello Vitest')).toBeInTheDocument()
 })
