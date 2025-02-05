@@ -1,20 +1,17 @@
 import { expect, test } from 'vitest'
 import type { PropsWithChildren } from 'react'
-import React from 'react'
-import { renderHook } from '../src/pure'
+import React, { act } from 'react'
+import { renderHook } from '../src/index'
+import { useCounter } from './fixtures/useCounter'
 
-test('gives committed result', () => {
-  const { result } = renderHook(() => {
-    const [state, setState] = React.useState(1)
+test('should increment counter', () => {
+  const { result } = renderHook(() => useCounter())
 
-    React.useEffect(() => {
-      setState(2)
-    }, [])
-
-    return [state, setState]
+  act(() => {
+    result.current.increment()
   })
 
-  expect(result.current).toEqual([2, expect.any(Function)])
+  expect(result.current.count).toBe(1)
 })
 
 test('allows rerendering', () => {
