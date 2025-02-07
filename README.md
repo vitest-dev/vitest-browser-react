@@ -22,7 +22,7 @@ test('counter button increments the count', async () => {
 > 💡 This library doesn't expose React's `act` and uses it only to flush operations happening as part of `useEffect` during initial rendering and unmouting.
 Other use cases are handled by CDP and `expect.element` which both have built-in [retry-ability mechanism](https://vitest.dev/guide/browser/assertion-api).
 
-use `renderHook` to test React Hook
+`vitest-browser-react` also exposes `renderHook` helper to test React hooks.
 
 ```tsx
 import { renderHook } from 'vitest-browser-react'
