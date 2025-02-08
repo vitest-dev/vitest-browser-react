@@ -30,13 +30,13 @@ import { expect, test } from 'vitest'
 import { act } from 'react'
 
 test('should increment counter', async () => {
-    const { result } = renderHook(() => useCounter())
+  const { result } = renderHook(() => useCounter())
 
-    act(() => {
-        result.current.increment()
-    })
+  act(() => {
+    result.current.increment()
+  })
 
-    expect(result.current.count).toBe(1)    
+  expect(result.current.count).toBe(1)
 })
 ```
 
