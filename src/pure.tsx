@@ -112,6 +112,65 @@ export function render(
   }
 }
 
+export interface RenderHookOptions<Props> extends ComponentRenderOptions {
+  /**
+   * The argument passed to the renderHook callback. Can be useful if you plan
+   * to use the rerender utility to change the values passed to your hook.
+   */
+  initialProps?: Props | undefined
+}
+
+export interface RenderHookResult<Result, Props> {
+  /**
+   * Triggers a re-render. The props will be passed to your renderHook callback.
+   */
+  rerender: (props?: Props) => void
+  /**
+   * This is a stable reference to the latest value returned by your renderHook
+   * callback
+   */
+  result: {
+    /**
+     * The value returned by your renderHook callback
+     */
+    current: Result
+  }
+  /**
+   * Unmounts the test component. This is useful for when you need to test
+   * any cleanup your useEffects have.
+   */
+  unmount: () => void
+}
+
+export function renderHook<Props, Result>(renderCallback: (initialProps?: Props) => Result, options: RenderHookOptions<Props> = {}): RenderHookResult<Result, Props> {
+  const { initialProps, ...renderOptions } = options
+
+  const result = React.createRef<Result>() as unknown as { current: Result }
+
+  function TestComponent({ renderCallbackProps }: { renderCallbackProps?: Props }) {
+    const pendingResult = renderCallback(renderCallbackProps)
+
+    React.useEffect(() => {
+      result.current = pendingResult
+    })
+
+    return null
+  }
+
+  const { rerender: baseRerender, unmount } = render(
+    <TestComponent renderCallbackProps={initialProps} />,
+    renderOptions,
+  )
+
+  function rerender(rerenderCallbackProps?: Props) {
+    return baseRerender(
+      <TestComponent renderCallbackProps={rerenderCallbackProps} />,
+    )
+  }
+
+  return { result, rerender, unmount }
+}
+
 export function cleanup(): void {
   mountedRootEntries.forEach(({ root, container }) => {
     act(() => {
@@ -157,7 +216,9 @@ function strictModeIfNeeded(innerElement: React.ReactNode) {
     : innerElement
 }
 
-function wrapUiIfNeeded(innerElement: React.ReactNode, wrapperComponent?: React.JSXElementConstructor<{ children: React.ReactNode }>) {
+function wrapUiIfNeeded(innerElement: React.ReactNode, wrapperComponent?: React.JSXElementConstructor<{
+  children: React.ReactNode
+}>) {
   return wrapperComponent
     ? React.createElement(wrapperComponent, null, innerElement)
     : innerElement
