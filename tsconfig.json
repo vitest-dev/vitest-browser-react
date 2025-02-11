@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "jsx": "react-jsx",
+    "jsx": "preserve",
+    "jsxFactory": "React.createElement",
     "jsxImportSource": "react",
     "lib": ["esnext", "dom", "DOM.Iterable"],
     "module": "ESNext",
