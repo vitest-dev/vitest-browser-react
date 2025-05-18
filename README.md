@@ -27,10 +27,9 @@ Other use cases are handled by CDP and `expect.element` which both have built-in
 ```tsx
 import { renderHook } from 'vitest-browser-react'
 import { expect, test } from 'vitest'
-import { act } from 'react'
 
 test('should increment counter', async () => {
-  const { result } = renderHook(() => useCounter())
+  const { result, act } = renderHook(() => useCounter())
 
   act(() => {
     result.current.increment()
