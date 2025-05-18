@@ -1,11 +1,11 @@
 import { expect, test } from 'vitest'
 import type { PropsWithChildren } from 'react'
-import React, { act } from 'react'
+import React from 'react'
 import { renderHook } from '../src/index'
 import { useCounter } from './fixtures/useCounter'
 
 test('should increment counter', () => {
-  const { result } = renderHook(() => useCounter())
+  const { result, act } = renderHook(() => useCounter())
 
   act(() => {
     result.current.increment()

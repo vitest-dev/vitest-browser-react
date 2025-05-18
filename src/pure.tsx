@@ -15,8 +15,12 @@ function act(cb: () => unknown) {
   }
   else {
     (globalThis as any).IS_REACT_ACT_ENVIRONMENT = true
-    _act(cb)
-    ;(globalThis as any).IS_REACT_ACT_ENVIRONMENT = false
+    try {
+      _act(cb)
+    }
+    finally {
+      ;(globalThis as any).IS_REACT_ACT_ENVIRONMENT = false
+    }
   }
 }
 
@@ -140,6 +144,10 @@ export interface RenderHookResult<Result, Props> {
    * any cleanup your useEffects have.
    */
   unmount: () => void
+  /**
+   * A test helper to apply pending React updates before making assertions.
+   */
+  act: (callback: () => unknown) => void
 }
 
 export function renderHook<Props, Result>(renderCallback: (initialProps?: Props) => Result, options: RenderHookOptions<Props> = {}): RenderHookResult<Result, Props> {
@@ -168,7 +176,7 @@ export function renderHook<Props, Result>(renderCallback: (initialProps?: Props)
     )
   }
 
-  return { result, rerender, unmount }
+  return { result, rerender, unmount, act }
 }
 
 export function cleanup(): void {
