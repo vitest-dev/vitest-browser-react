@@ -52,11 +52,11 @@
     "lint:fix": "pnpm lint --fix"
   },
   "peerDependencies": {
-    "@types/react": ">18.0.0",
-    "@types/react-dom": ">18.0.0",
+    "@types/react": ">19.1.5",
+    "@types/react-dom": ">19.1.5",
     "@vitest/browser": ">=2.1.0",
-    "react": ">18.0.0",
-    "react-dom": ">18.0.0",
+    "react": ">19.1.0",
+    "react-dom": ">19.1.0",
     "vitest": ">=2.1.0"
   },
   "peerDependenciesMeta": {
@@ -69,16 +69,16 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.24.1",
-    "@types/react": "^18.0.0",
-    "@types/react-dom": "^18.3.0",
+    "@types/react": "^19.1.5",
+    "@types/react-dom": "^19.1.5",
     "@vitejs/plugin-react": "^4.3.3",
     "@vitest/browser": "^3.1.0",
     "bumpp": "^9.4.2",
     "changelogithub": "^0.13.9",
     "eslint": "^9.8.0",
     "playwright": "^1.46.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
     "tsup": "^8.2.4",
     "tsx": "^4.17.0",
     "typescript": "^5.5.4",
