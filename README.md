@@ -19,7 +19,7 @@ test('counter button increments the count', async () => {
 })
 ```
 
-> 💡 This library doesn't expose React's `act` and uses it only to flush operations happening as part of `useEffect` during initial rendering and unmouting.
+> 💡 This library doesn't expose React's `act` and uses it only to flush operations happening as part of `useEffect` during initial rendering and unmounting.
 Other use cases are handled by CDP and `expect.element` which both have built-in [retry-ability mechanism](https://vitest.dev/guide/browser/assertion-api).
 
 `vitest-browser-react` also exposes `renderHook` helper to test React hooks.
@@ -70,7 +70,7 @@ test('counter button increments the count', async () => {
 })
 ```
 
-Unlike `@testing-library/react`, `vitest-browser-react` performs cleanup of the component before the test begins, allowing you to see the rendered result in your UI. If you prefer to disable auto-cleanup, you can import the `render` function from `vitest-browser-react/pure`.
+Unlike `@testing-library/react`, `vitest-browser-react` performs cleanup of the component before the test begins, allowing you to see the rendered result in the Browser UI. If you prefer to disable auto-cleanup, you can import the `render` function from `vitest-browser-react/pure`.
 
 ## Configuration
 
@@ -84,6 +84,58 @@ configure({
   reactStrictMode: true,
 })
 ```
+
+## The difference with `@testing-library/react`
+
+The main difference is that `vitest-browser-react` integrates with Vitest Browser Mode locators: https://github.com/vitest-dev/vitest/discussions/5828#discussioncomment-10314822
+
+Locators are nice because they provide an intuitive and ergonomic way to query and make assertions:
+
+```ts
+await expect.element(page.getByRole('button')).toBeVisible()
+```
+
+You can write the same with testing-library:
+
+```ts
+const button = await screen.findByRole('button')
+expect(button).toBeVisible()
+
+// or
+await expect.poll(() => screen.getByRole('button')).toBeVisible()
+```
+
+One nice thing that comes out of this approach is that Vitest can keep querying the element _during_ the assertion instead of before. This means that if the element was found, but it has an invalid state, the assertion will continue checking the element until it works. This makes your tests less flaky.
+
+```ts
+const button = await screen.findByRole('button')
+// it's possible that the element is in the dom, but its state is invalid
+// but it will be valid in a few render cycles
+expect(button).toBeVisible()
+
+// even if element is in the dom, it might not be visible yet
+// vitest will continue checking the validity
+await expect.element(page.getByRole('button')).toBeVisible()
+```
+
+Another example is with user-event. Vitest provides a similar API to `testing-library`, but uses CDP instead of faking events which is closer to how browsers work:
+
+```ts
+await page.getByRole('button').click()
+// or
+await userEvent.click(page.getByRole('button'))
+```
+
+You can write the same with testing-library:
+
+```ts
+const button = await screen.findByRole('button')
+await userEvent.click(button)
+```
+
+In short, this library integrates well with Vitest Browser Locators API, and that is why it's recommended for the Browser Mode, although you can continue using testing-library if you prefer.
+
+One of the reasons why the Vitest team decided to add our own wrapper was because it became confusing to document all the differences with how testing-library works in Vitest: the dom/render libraries work the same, but user-event is not (except sometimes, such as with the preview provider). Streamlining the API made it easier to explain and more approachable for newcomers.
 
 ## Special thanks
 
