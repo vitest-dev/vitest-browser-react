@@ -1,5 +1,6 @@
-import { expect, test } from 'vitest'
-import { page } from '@vitest/browser/context'
+import { expect, test, vi } from 'vitest'
+import { page, userEvent } from '@vitest/browser/context'
+import { Button } from 'react-aria-components'
 import { render } from '../src/index'
 import { HelloWorld } from './fixtures/HelloWorld'
 import { Counter } from './fixtures/Counter'
@@ -16,4 +17,12 @@ test('renders counter', async () => {
   await expect.element(screen.getByText('Count is 1')).toBeVisible()
   await screen.getByRole('button', { name: 'Increment' }).click()
   await expect.element(screen.getByText('Count is 2')).toBeVisible()
+})
+
+test('should fire the onPress/onClick handler', async () => {
+  const handler = vi.fn()
+  const screen = page.render(<Button onPress={handler}>Button</Button>)
+  await userEvent.click(screen.getByRole('button'))
+  // await screen.getByRole('button').click()
+  expect(handler).toHaveBeenCalled()
 })
