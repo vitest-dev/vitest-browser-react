@@ -10,8 +10,8 @@ page.extend({
   [Symbol.for('vitest:component-cleanup')]: cleanup,
 })
 
-beforeEach(() => {
-  cleanup()
+beforeEach(async () => {
+  await cleanup()
 })
 
 declare module '@vitest/browser/context' {
