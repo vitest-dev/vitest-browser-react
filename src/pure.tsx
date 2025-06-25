@@ -1,5 +1,9 @@
 import type { Locator, LocatorSelectors } from '@vitest/browser/context'
-import { type PrettyDOMOptions, debug, getElementLocatorSelectors } from '@vitest/browser/utils'
+import {
+  type PrettyDOMOptions,
+  debug,
+  getElementLocatorSelectors,
+} from '@vitest/browser/utils'
 import React from 'react'
 import type { Container } from 'react-dom/client'
 import ReactDOMClient from 'react-dom/client'
@@ -15,17 +19,12 @@ async function act(cb: () => unknown) {
   }
   else {
     (globalThis as any).IS_REACT_ACT_ENVIRONMENT = true
-<<<<<<< HEAD:src/pure.tsx
     try {
-      _act(cb)
+      await _act(cb)
     }
     finally {
-      ;(globalThis as any).IS_REACT_ACT_ENVIRONMENT = false
+      (globalThis as any).IS_REACT_ACT_ENVIRONMENT = false
     }
-=======
-    await _act(cb)
-    ;(globalThis as any).IS_REACT_ACT_ENVIRONMENT = false
->>>>>>> 9999e1e4b64373a63fd66c803ff70da98c0e0e10:src/pure.ts
   }
 }
 
@@ -35,7 +34,7 @@ export interface RenderResult extends LocatorSelectors {
   debug: (
     el?: HTMLElement | HTMLElement[] | Locator | Locator[],
     maxLength?: number,
-    options?: PrettyDOMOptions
+    options?: PrettyDOMOptions,
   ) => void
   unmount: () => Promise<void>
   rerender: (ui: React.ReactNode) => Promise<void>
@@ -58,7 +57,11 @@ const mountedRootEntries: {
 
 export async function render(
   ui: React.ReactNode,
-  { container, baseElement, wrapper: WrapperComponent }: ComponentRenderOptions = {},
+  {
+    container,
+    baseElement,
+    wrapper: WrapperComponent,
+  }: ComponentRenderOptions = {},
 ): Promise<RenderResult> {
   if (!baseElement) {
     // default to document.body instead of documentElement to avoid output of potentially-large
@@ -93,9 +96,7 @@ export async function render(
   }
 
   await act(() => {
-    root!.render(
-      strictModeIfNeeded(wrapUiIfNeeded(ui, WrapperComponent)),
-    )
+    root!.render(strictModeIfNeeded(wrapUiIfNeeded(ui, WrapperComponent)))
   })
 
   return {
@@ -115,13 +116,14 @@ export async function render(
       })
     },
     asFragment: () => {
-      return document.createRange().createContextualFragment(container.innerHTML)
+      return document
+        .createRange()
+        .createContextualFragment(container.innerHTML)
     },
     ...getElementLocatorSelectors(baseElement),
   }
 }
 
-<<<<<<< HEAD:src/pure.tsx
 export interface RenderHookOptions<Props> extends ComponentRenderOptions {
   /**
    * The argument passed to the renderHook callback. Can be useful if you plan
@@ -134,7 +136,7 @@ export interface RenderHookResult<Result, Props> {
   /**
    * Triggers a re-render. The props will be passed to your renderHook callback.
    */
-  rerender: (props?: Props) => void
+  rerender: (props?: Props) => Promise<void>
   /**
    * This is a stable reference to the latest value returned by your renderHook
    * callback
@@ -149,19 +151,26 @@ export interface RenderHookResult<Result, Props> {
    * Unmounts the test component. This is useful for when you need to test
    * any cleanup your useEffects have.
    */
-  unmount: () => void
+  unmount: () => Promise<void>
   /**
    * A test helper to apply pending React updates before making assertions.
    */
-  act: (callback: () => unknown) => void
+  act: (callback: () => unknown) => Promise<void>
 }
 
-export function renderHook<Props, Result>(renderCallback: (initialProps?: Props) => Result, options: RenderHookOptions<Props> = {}): RenderHookResult<Result, Props> {
+export async function renderHook<Props, Result>(
+  renderCallback: (initialProps?: Props) => Result,
+  options: RenderHookOptions<Props> = {},
+): Promise<RenderHookResult<Result, Props>> {
   const { initialProps, ...renderOptions } = options
 
   const result = React.createRef<Result>() as unknown as { current: Result }
 
-  function TestComponent({ renderCallbackProps }: { renderCallbackProps?: Props }) {
+  function TestComponent({
+    renderCallbackProps,
+  }: {
+    renderCallbackProps?: Props
+  }) {
     const pendingResult = renderCallback(renderCallbackProps)
 
     React.useEffect(() => {
@@ -171,7 +180,7 @@ export function renderHook<Props, Result>(renderCallback: (initialProps?: Props)
     return null
   }
 
-  const { rerender: baseRerender, unmount } = render(
+  const { rerender: baseRerender, unmount } = await render(
     <TestComponent renderCallbackProps={initialProps} />,
     renderOptions,
   )
@@ -185,20 +194,17 @@ export function renderHook<Props, Result>(renderCallback: (initialProps?: Props)
   return { result, rerender, unmount, act }
 }
 
-export function cleanup(): void {
-  mountedRootEntries.forEach(({ root, container }) => {
-    act(() => {
-=======
 export async function cleanup(): Promise<void> {
-  mountedRootEntries.forEach(async ({ root, container }) => {
-    await act(() => {
->>>>>>> 9999e1e4b64373a63fd66c803ff70da98c0e0e10:src/pure.ts
-      root.unmount()
-    })
-    if (container.parentNode === document.body) {
-      document.body.removeChild(container)
-    }
-  })
+  await Promise.all(
+    mountedRootEntries.map(async ({ root, container }) => {
+      await act(() => {
+        root.unmount()
+      })
+      if (container.parentNode === document.body) {
+        document.body.removeChild(container)
+      }
+    }),
+  )
   mountedRootEntries.length = 0
   mountedContainers.clear()
 }
@@ -235,9 +241,12 @@ function strictModeIfNeeded(innerElement: React.ReactNode) {
     : innerElement
 }
 
-function wrapUiIfNeeded(innerElement: React.ReactNode, wrapperComponent?: React.JSXElementConstructor<{
-  children: React.ReactNode
-}>) {
+function wrapUiIfNeeded(
+  innerElement: React.ReactNode,
+  wrapperComponent?: React.JSXElementConstructor<{
+    children: React.ReactNode
+  }>,
+) {
   return wrapperComponent
     ? React.createElement(wrapperComponent, null, innerElement)
     : innerElement

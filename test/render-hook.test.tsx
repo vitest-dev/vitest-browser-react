@@ -4,18 +4,18 @@ import React from 'react'
 import { renderHook } from '../src/index'
 import { useCounter } from './fixtures/useCounter'
 
-test('should increment counter', () => {
-  const { result, act } = renderHook(() => useCounter())
+test('should increment counter', async () => {
+  const { result, act } = await renderHook(() => useCounter())
 
-  act(() => {
+  await act(() => {
     result.current.increment()
   })
 
   expect(result.current.count).toBe(1)
 })
 
-test('allows rerendering', () => {
-  const { result, rerender } = renderHook(
+test('allows rerendering', async () => {
+  const { result, rerender } = await renderHook(
     (initialProps) => {
       const [left, setLeft] = React.useState('left')
       const [right, setRight] = React.useState('right')
@@ -47,7 +47,7 @@ test('allows wrapper components', async () => {
   function Wrapper({ children }: PropsWithChildren) {
     return <Context.Provider value="provided">{children}</Context.Provider>
   }
-  const { result } = renderHook(
+  const { result } = await renderHook(
     () => {
       return React.useContext(Context)
     },
