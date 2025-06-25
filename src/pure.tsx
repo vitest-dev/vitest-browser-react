@@ -1,9 +1,5 @@
 import type { Locator, LocatorSelectors } from '@vitest/browser/context'
-import {
-  type PrettyDOMOptions,
-  debug,
-  getElementLocatorSelectors,
-} from '@vitest/browser/utils'
+import { type PrettyDOMOptions, debug, getElementLocatorSelectors } from '@vitest/browser/utils'
 import React from 'react'
 import type { Container } from 'react-dom/client'
 import ReactDOMClient from 'react-dom/client'
@@ -23,7 +19,7 @@ async function act(cb: () => unknown) {
       await _act(cb)
     }
     finally {
-      (globalThis as any).IS_REACT_ACT_ENVIRONMENT = false
+      ;(globalThis as any).IS_REACT_ACT_ENVIRONMENT = false
     }
   }
 }
@@ -34,7 +30,7 @@ export interface RenderResult extends LocatorSelectors {
   debug: (
     el?: HTMLElement | HTMLElement[] | Locator | Locator[],
     maxLength?: number,
-    options?: PrettyDOMOptions,
+    options?: PrettyDOMOptions
   ) => void
   unmount: () => Promise<void>
   rerender: (ui: React.ReactNode) => Promise<void>
@@ -57,11 +53,7 @@ const mountedRootEntries: {
 
 export async function render(
   ui: React.ReactNode,
-  {
-    container,
-    baseElement,
-    wrapper: WrapperComponent,
-  }: ComponentRenderOptions = {},
+  { container, baseElement, wrapper: WrapperComponent }: ComponentRenderOptions = {},
 ): Promise<RenderResult> {
   if (!baseElement) {
     // default to document.body instead of documentElement to avoid output of potentially-large
@@ -116,9 +108,7 @@ export async function render(
       })
     },
     asFragment: () => {
-      return document
-        .createRange()
-        .createContextualFragment(container.innerHTML)
+      return document.createRange().createContextualFragment(container.innerHTML)
     },
     ...getElementLocatorSelectors(baseElement),
   }
@@ -158,19 +148,12 @@ export interface RenderHookResult<Result, Props> {
   act: (callback: () => unknown) => Promise<void>
 }
 
-export async function renderHook<Props, Result>(
-  renderCallback: (initialProps?: Props) => Result,
-  options: RenderHookOptions<Props> = {},
-): Promise<RenderHookResult<Result, Props>> {
+export async function renderHook<Props, Result>(renderCallback: (initialProps?: Props) => Result, options: RenderHookOptions<Props> = {}): Promise<RenderHookResult<Result, Props>> {
   const { initialProps, ...renderOptions } = options
 
   const result = React.createRef<Result>() as unknown as { current: Result }
 
-  function TestComponent({
-    renderCallbackProps,
-  }: {
-    renderCallbackProps?: Props
-  }) {
+  function TestComponent({ renderCallbackProps }: { renderCallbackProps?: Props }) {
     const pendingResult = renderCallback(renderCallbackProps)
 
     React.useEffect(() => {
@@ -241,12 +224,7 @@ function strictModeIfNeeded(innerElement: React.ReactNode) {
     : innerElement
 }
 
-function wrapUiIfNeeded(
-  innerElement: React.ReactNode,
-  wrapperComponent?: React.JSXElementConstructor<{
-    children: React.ReactNode
-  }>,
-) {
+function wrapUiIfNeeded(innerElement: React.ReactNode, wrapperComponent?: React.JSXElementConstructor<{ children: React.ReactNode }>) {
   return wrapperComponent
     ? React.createElement(wrapperComponent, null, innerElement)
     : innerElement
