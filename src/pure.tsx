@@ -88,7 +88,9 @@ export async function render(
   }
 
   await act(() => {
-    root!.render(strictModeIfNeeded(wrapUiIfNeeded(ui, WrapperComponent)))
+    root!.render(
+      strictModeIfNeeded(wrapUiIfNeeded(ui, WrapperComponent)),
+    )
   })
 
   return {
@@ -224,7 +226,9 @@ function strictModeIfNeeded(innerElement: React.ReactNode) {
     : innerElement
 }
 
-function wrapUiIfNeeded(innerElement: React.ReactNode, wrapperComponent?: React.JSXElementConstructor<{ children: React.ReactNode }>) {
+function wrapUiIfNeeded(innerElement: React.ReactNode, wrapperComponent?: React.JSXElementConstructor<{
+  children: React.ReactNode
+}>) {
   return wrapperComponent
     ? React.createElement(wrapperComponent, null, innerElement)
     : innerElement
