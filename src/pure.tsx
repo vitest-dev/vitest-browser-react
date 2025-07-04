@@ -181,12 +181,12 @@ export async function renderHook<Props, Result>(renderCallback: (initialProps?: 
 
 export async function cleanup(): Promise<void> {
   for (const { root, container } of mountedRootEntries) {
-      await act(() => {
-        root.unmount()
-      })
-      if (container.parentNode === document.body) {
-        document.body.removeChild(container)
-      }
+    await act(() => {
+      root.unmount()
+    })
+    if (container.parentNode === document.body) {
+      document.body.removeChild(container)
+    }
   }
   mountedRootEntries.length = 0
   mountedContainers.clear()

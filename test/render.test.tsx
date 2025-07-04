@@ -31,6 +31,10 @@ test('should fire the onPress/onClick handler', async () => {
 
 test('waits for suspended boundaries', async ({ onTestFinished }) => {
   vi.useFakeTimers()
+  onTestFinished(() => {
+    vi.useRealTimers()
+  })
+
   const result = render(<SuspendedHelloWorld name="Vitest" />, {
     wrapper: ({ children }) => (
       <Suspense fallback={<div>Suspended!</div>}>{children}</Suspense>
@@ -40,8 +44,4 @@ test('waits for suspended boundaries', async ({ onTestFinished }) => {
   vi.runAllTimers()
   await result
   await expect.element(page.getByText('Hello Vitest')).toBeInTheDocument()
-
-  onTestFinished(() => {
-    vi.useRealTimers()
-  })
 })
