@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, expect, test, vi } from 'vitest'
+import { expect, test, vi } from 'vitest'
 import { page, userEvent } from '@vitest/browser/context'
 import { Button } from 'react-aria-components'
 import { Suspense } from 'react'
@@ -6,14 +6,6 @@ import { render } from '../src/index'
 import { HelloWorld } from './fixtures/HelloWorld'
 import { Counter } from './fixtures/Counter'
 import { SuspendedHelloWorld } from './fixtures/SuspendedHelloWorld'
-
-beforeEach(() => {
-  vi.useFakeTimers()
-})
-
-afterEach(() => {
-  vi.useRealTimers()
-})
 
 test('renders simple component', async () => {
   const screen = await render(<HelloWorld />)
@@ -37,7 +29,8 @@ test('should fire the onPress/onClick handler', async () => {
   expect(handler).toHaveBeenCalled()
 })
 
-test('waits for suspended boundaries', async () => {
+test('waits for suspended boundaries', async ({ onTestFinished }) => {
+  vi.useFakeTimers()
   const result = render(<SuspendedHelloWorld name="Vitest" />, {
     wrapper: ({ children }) => (
       <Suspense fallback={<div>Suspended!</div>}>{children}</Suspense>
@@ -47,4 +40,8 @@ test('waits for suspended boundaries', async () => {
   vi.runAllTimers()
   await result
   await expect.element(page.getByText('Hello Vitest')).toBeInTheDocument()
+
+  onTestFinished(() => {
+    vi.useRealTimers()
+  })
 })
