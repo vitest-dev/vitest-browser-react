@@ -7,7 +7,7 @@ import ReactDOMClient from 'react-dom/client'
 // we call act only when rendering to flush any possible effects
 // usually the async nature of Vitest browser mode ensures consistency,
 // but rendering is sync and controlled by React directly
-function act(cb: () => unknown) {
+async function act(cb: () => unknown) {
   // @ts-expect-error unstable_act is not typed, but exported
   const _act = React.act || React.unstable_act
   if (typeof _act !== 'function') {
@@ -16,7 +16,7 @@ function act(cb: () => unknown) {
   else {
     (globalThis as any).IS_REACT_ACT_ENVIRONMENT = true
     try {
-      _act(cb)
+      await _act(cb)
     }
     finally {
       ;(globalThis as any).IS_REACT_ACT_ENVIRONMENT = false
@@ -32,8 +32,8 @@ export interface RenderResult extends LocatorSelectors {
     maxLength?: number,
     options?: PrettyDOMOptions
   ) => void
-  unmount: () => void
-  rerender: (ui: React.ReactNode) => void
+  unmount: () => Promise<void>
+  rerender: (ui: React.ReactNode) => Promise<void>
   asFragment: () => DocumentFragment
 }
 
@@ -51,10 +51,10 @@ const mountedRootEntries: {
   root: ReturnType<typeof createConcurrentRoot>
 }[] = []
 
-export function render(
+export async function render(
   ui: React.ReactNode,
   { container, baseElement, wrapper: WrapperComponent }: ComponentRenderOptions = {},
-): RenderResult {
+): Promise<RenderResult> {
   if (!baseElement) {
     // default to document.body instead of documentElement to avoid output of potentially-large
     // head elements (such as JSS style blocks) in debug output
@@ -87,7 +87,7 @@ export function render(
     })
   }
 
-  act(() => {
+  await act(() => {
     root!.render(
       strictModeIfNeeded(wrapUiIfNeeded(ui, WrapperComponent)),
     )
@@ -97,13 +97,13 @@ export function render(
     container,
     baseElement,
     debug: (el, maxLength, options) => debug(el, maxLength, options),
-    unmount: () => {
-      act(() => {
+    unmount: async () => {
+      await act(() => {
         root.unmount()
       })
     },
-    rerender: (newUi: React.ReactNode) => {
-      act(() => {
+    rerender: async (newUi: React.ReactNode) => {
+      await act(() => {
         root.render(
           strictModeIfNeeded(wrapUiIfNeeded(newUi, WrapperComponent)),
         )
@@ -128,7 +128,7 @@ export interface RenderHookResult<Result, Props> {
   /**
    * Triggers a re-render. The props will be passed to your renderHook callback.
    */
-  rerender: (props?: Props) => void
+  rerender: (props?: Props) => Promise<void>
   /**
    * This is a stable reference to the latest value returned by your renderHook
    * callback
@@ -143,14 +143,14 @@ export interface RenderHookResult<Result, Props> {
    * Unmounts the test component. This is useful for when you need to test
    * any cleanup your useEffects have.
    */
-  unmount: () => void
+  unmount: () => Promise<void>
   /**
    * A test helper to apply pending React updates before making assertions.
    */
-  act: (callback: () => unknown) => void
+  act: (callback: () => unknown) => Promise<void>
 }
 
-export function renderHook<Props, Result>(renderCallback: (initialProps?: Props) => Result, options: RenderHookOptions<Props> = {}): RenderHookResult<Result, Props> {
+export async function renderHook<Props, Result>(renderCallback: (initialProps?: Props) => Result, options: RenderHookOptions<Props> = {}): Promise<RenderHookResult<Result, Props>> {
   const { initialProps, ...renderOptions } = options
 
   const result = React.createRef<Result>() as unknown as { current: Result }
@@ -165,7 +165,7 @@ export function renderHook<Props, Result>(renderCallback: (initialProps?: Props)
     return null
   }
 
-  const { rerender: baseRerender, unmount } = render(
+  const { rerender: baseRerender, unmount } = await render(
     <TestComponent renderCallbackProps={initialProps} />,
     renderOptions,
   )
@@ -179,15 +179,15 @@ export function renderHook<Props, Result>(renderCallback: (initialProps?: Props)
   return { result, rerender, unmount, act }
 }
 
-export function cleanup(): void {
-  mountedRootEntries.forEach(({ root, container }) => {
-    act(() => {
+export async function cleanup(): Promise<void> {
+  for (const { root, container } of mountedRootEntries) {
+    await act(() => {
       root.unmount()
     })
     if (container.parentNode === document.body) {
       document.body.removeChild(container)
     }
-  })
+  }
   mountedRootEntries.length = 0
   mountedContainers.clear()
 }

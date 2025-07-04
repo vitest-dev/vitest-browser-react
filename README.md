@@ -11,7 +11,7 @@ import { render } from 'vitest-browser-react'
 import { expect, test } from 'vitest'
 
 test('counter button increments the count', async () => {
-  const screen = render(<Component count={1} />)
+  const screen = await render(<Component count={1} />)
 
   await screen.getByRole('button', { name: 'Increment' }).click()
 
@@ -29,9 +29,9 @@ import { renderHook } from 'vitest-browser-react'
 import { expect, test } from 'vitest'
 
 test('should increment counter', async () => {
-  const { result, act } = renderHook(() => useCounter())
+  const { result, act } = await renderHook(() => useCounter())
 
-  act(() => {
+  await act(() => {
     result.current.increment()
   })
 
@@ -64,9 +64,9 @@ import 'vitest-browser-react'
 import { page } from '@vitest/browser/context'
 
 test('counter button increments the count', async () => {
-  const screen = page.render(<Component count={1} />)
+  const screen = await page.render(<Component count={1} />)
 
-  screen.cleanup()
+  await screen.cleanup()
 })
 ```
 
