@@ -1,4 +1,5 @@
 import type { Locator, LocatorSelectors } from '@vitest/browser/context'
+import { page } from '@vitest/browser/context'
 import { type PrettyDOMOptions, debug, getElementLocatorSelectors } from '@vitest/browser/utils'
 import React from 'react'
 import type { Container } from 'react-dom/client'
@@ -27,6 +28,7 @@ async function act(cb: () => unknown) {
 export interface RenderResult extends LocatorSelectors {
   container: HTMLElement
   baseElement: HTMLElement
+  locator: Locator
   debug: (
     el?: HTMLElement | HTMLElement[] | Locator | Locator[],
     maxLength?: number,
@@ -96,6 +98,7 @@ export async function render(
   return {
     container,
     baseElement,
+    locator: page.elementLocator(container),
     debug: (el, maxLength, options) => debug(el, maxLength, options),
     unmount: async () => {
       await act(() => {
