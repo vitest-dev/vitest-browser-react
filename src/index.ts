@@ -3,7 +3,7 @@ import { beforeEach } from 'vitest'
 import { cleanup, render } from './pure'
 
 export { render, renderHook, cleanup } from './pure'
-export type { ComponentRenderOptions, RenderHookOptions, RenderHookResult, RenderResult } from './pure'
+export type { ComponentRenderOptions, RenderHookOptions, RenderHookResult, RenderOptions, RenderResult } from './pure'
 
 page.extend({
   render,
