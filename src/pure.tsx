@@ -45,6 +45,8 @@ export interface ComponentRenderOptions {
   wrapper?: React.JSXElementConstructor<{ children: React.ReactNode }>
 }
 
+export interface RenderOptions extends ComponentRenderOptions {}
+
 // Ideally we'd just use a WeakMap where containers are keys and roots are values.
 // We use two variables so that we can bail out in constant time when we render with a new container (most common use case)
 const mountedContainers = new Set<Container>()
