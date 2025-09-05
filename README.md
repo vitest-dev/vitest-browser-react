@@ -20,7 +20,7 @@ test('counter button increments the count', async () => {
 ```
 
 > 💡 This library doesn't expose React's `act` and uses it only to flush operations happening as part of `useEffect` during initial rendering and unmounting.
-Other use cases are handled by CDP and `expect.element` which both have built-in [retry-ability mechanism](https://vitest.dev/guide/browser/assertion-api).
+Other use cases are handled by [CDP](https://chromedevtools.github.io/devtools-protocol/) and `expect.element` which both have built-in [retry-ability mechanism](https://vitest.dev/guide/browser/assertion-api).
 
 `vitest-browser-react` also exposes `renderHook` helper to test React hooks.
 
@@ -118,7 +118,7 @@ expect(button).toBeVisible()
 await expect.element(page.getByRole('button')).toBeVisible()
 ```
 
-Another example is with user-event. Vitest provides a similar API to `testing-library`, but uses CDP instead of faking events which is closer to how browsers work:
+Another example is with user-event. Vitest provides a similar API to `testing-library`, but uses [CDP](https://chromedevtools.github.io/devtools-protocol/) instead of faking events which is closer to how browsers work:
 
 ```ts
 await page.getByRole('button').click()
