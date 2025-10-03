@@ -4,7 +4,7 @@ Render React components in Vitest Browser Mode. This library follows `testing-li
 
 `vitest-browser-react` aims to deliver a good developer experience in Vitest Browser Mode by incorporating the [locators API](https://vitest.dev/guide/browser/locators.html) and [retry-ability](https://vitest.dev/guide/browser/assertion-api.html) mechanism directly into the `render` result. This allows you to call user methods without needing to verify the element's existence or wait for external events (like API calls) to render the element.
 
-Requires `vitest` and `@vitest/browser` 2.1.0 or higher.
+Requires `vitest` 4.0.0 or higher.
 
 ```tsx
 import { render } from 'vitest-browser-react'
@@ -49,8 +49,7 @@ export default defineConfig({
   test: {
     setupFiles: ['./setup-file.ts'],
     browser: {
-      name: 'chromium',
-      enabled: true,
+      // ... your config
     },
   },
 })
@@ -61,7 +60,7 @@ import 'vitest-browser-react'
 ```
 
 ```tsx
-import { page } from '@vitest/browser/context'
+import { page } from 'vitest/browser'
 
 test('counter button increments the count', async () => {
   const screen = await page.render(<Component count={1} />)

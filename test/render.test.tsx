@@ -1,5 +1,5 @@
 import { expect, test, vi } from 'vitest'
-import { page, userEvent } from '@vitest/browser/context'
+import { page, userEvent } from 'vitest/browser'
 import { Button } from 'react-aria-components'
 import { Suspense } from 'react'
 import { render } from '../src/index'
