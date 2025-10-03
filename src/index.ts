@@ -1,4 +1,4 @@
-import { page } from '@vitest/browser/context'
+import { page } from 'vitest/browser'
 import { beforeEach } from 'vitest'
 import { cleanup, render } from './pure'
 
@@ -14,7 +14,7 @@ beforeEach(async () => {
   await cleanup()
 })
 
-declare module '@vitest/browser/context' {
+declare module 'vitest/browser' {
   interface BrowserPage {
     render: typeof render
   }

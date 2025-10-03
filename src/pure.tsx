@@ -1,9 +1,10 @@
-import type { Locator, LocatorSelectors } from '@vitest/browser/context'
-import { page } from '@vitest/browser/context'
-import { type PrettyDOMOptions, debug, getElementLocatorSelectors } from '@vitest/browser/utils'
+import type { Locator, LocatorSelectors, PrettyDOMOptions } from 'vitest/browser'
+import { page, utils } from 'vitest/browser'
 import React from 'react'
 import type { Container } from 'react-dom/client'
 import ReactDOMClient from 'react-dom/client'
+
+const { debug, getElementLocatorSelectors } = utils
 
 // we call act only when rendering to flush any possible effects
 // usually the async nature of Vitest browser mode ensures consistency,
