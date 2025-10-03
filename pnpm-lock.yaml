@@ -22,7 +22,7 @@ importers:
         version: 4.3.3(vite@7.1.9(jiti@1.21.6)(tsx@4.17.0)(yaml@2.5.0))
       '@vitest/browser-playwright':
         specifier: ^4.0.0-beta.15
-        version: 4.0.0-beta.15(playwright@1.46.0)(vite@7.1.9(jiti@1.21.6)(tsx@4.17.0)(yaml@2.5.0))(vitest@4.0.0-beta.15)
+        version: 4.0.0-beta.15(playwright@1.55.1)(vite@7.1.9(jiti@1.21.6)(tsx@4.17.0)(yaml@2.5.0))(vitest@4.0.0-beta.15)
       bumpp:
         specifier: ^9.4.2
         version: 9.4.2
@@ -33,8 +33,8 @@ importers:
         specifier: ^9.8.0
         version: 9.8.0
       playwright:
-        specifier: ^1.46.0
-        version: 1.46.0
+        specifier: ^1.55.1
+        version: 1.55.1
       react:
         specifier: ^19.0.0
         version: 19.1.0
@@ -2625,9 +2625,6 @@ packages:
   lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
 
-  magic-string@0.30.17:
-    resolution: {integrity: sha512-sNPKHvyjVf7gyjwS4xGTaW/mCnF8wnjtifKBEhxfZ7E/S8tQ0rssrwGNn6q8JH/ohItJfSQp9mBtQYuTlH5QnA==}
-
   magic-string@0.30.19:
     resolution: {integrity: sha512-2N21sPY9Ws53PZvsEpVtNuSW+ScYbQdp4b9qUaL+9QkHUrGFKo56Lg9Emg5s9V/qrtNBmiR01sYhUOwu3H+VOw==}
 
@@ -2717,11 +2714,6 @@ packages:
 
   nanoid@3.3.11:
     resolution: {integrity: sha512-N8SpfPUnUp1bK+PMYW8qSWdl9U+wwNWI4QKxOYDy9JAro3WMX7p2OeVRF9v+347pnakNevPmiHhNmZ2HbFA76w==}
-    engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
-    hasBin: true
-
-  nanoid@3.3.7:
-    resolution: {integrity: sha512-eSRppjcPIatRIMC1U6UngP8XFcz8MQWGQdt1MTBQ7NaAmvXDfvNxbvWV3x2y6CdEUciCSsDHDQZbhYaB8QEo2g==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
@@ -2889,13 +2881,13 @@ packages:
   pkg-types@1.1.3:
     resolution: {integrity: sha512-+JrgthZG6m3ckicaOB74TwQ+tBWsFl3qVQg7mN8ulwSOElJ7gBhKzj2VkCPnZ4NlF6kEquYU+RIYNVAvzd54UA==}
 
-  playwright-core@1.46.0:
-    resolution: {integrity: sha512-9Y/d5UIwuJk8t3+lhmMSAJyNP1BUC/DqP3cQJDQQL/oWqAiuPTLgy7Q5dzglmTLwcBRdetzgNM/gni7ckfTr6A==}
+  playwright-core@1.55.1:
+    resolution: {integrity: sha512-Z6Mh9mkwX+zxSlHqdr5AOcJnfp+xUWLCt9uKV18fhzA8eyxUd8NUWzAjxUh55RZKSYwDGX0cfaySdhZJGMoJ+w==}
     engines: {node: '>=18'}
     hasBin: true
 
-  playwright@1.46.0:
-    resolution: {integrity: sha512-XYJ5WvfefWONh1uPAUAi0H2xXV5S3vrtcnXe6uAOgdGi3aSpqOSXX08IAjXW34xitfuOJsvXU5anXZxPSEQiJw==}
+  playwright@1.55.1:
+    resolution: {integrity: sha512-cJW4Xd/G3v5ovXtJJ52MAOclqeac9S/aGGgRzLabuF8TnIb6xHvMzKIa6JmrRzUkeXJgfL1MhukP0NK6l39h3A==}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -2928,10 +2920,6 @@ packages:
   postcss-selector-parser@6.1.1:
     resolution: {integrity: sha512-b4dlw/9V8A71rLIDsSwVmak9z2DuBUB7CA1/wSdelNEzqsjoSPeADTWNO09lpH49Diy3/JIZ2bSPB1dI3LJCHg==}
     engines: {node: '>=4'}
-
-  postcss@8.4.41:
-    resolution: {integrity: sha512-TesUflQ0WKZqAvg52PWL6kHgLKP6xB6heTOdoYM0Wt2UHyxNa4K25EZZMgKns3BH1RLVbZCREPpLY0rhnNoHVQ==}
-    engines: {node: ^10 || ^12 || >=14}
 
   postcss@8.5.6:
     resolution: {integrity: sha512-3Ybi1tAuwAP9s0r1UQ2J4n5Y0G05bJkpUIO0/bI9MhwmD70S5aTWbXGBwxHrelT+XM1k6dM0pk+SwNkpTRN7Pg==}
@@ -3107,10 +3095,6 @@ packages:
 
   slashes@3.0.12:
     resolution: {integrity: sha512-Q9VME8WyGkc7pJf6QEkj3wE+2CnvZMI+XJhwdTPR8Z/kWQRXi7boAWLDibRPyHRTUTPx5FaU7MsyrjI3yLB4HA==}
-
-  source-map-js@1.2.0:
-    resolution: {integrity: sha512-itJW8lvSA0TXEphiRoawsCksnlf8SyvmFzIhltqAHluXd88pkCd+cXJVHTDwdCr0IzwptSm035IHQktUu1QUMg==}
-    engines: {node: '>=0.10.0'}
 
   source-map-js@1.2.1:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
@@ -5459,11 +5443,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@vitest/browser-playwright@4.0.0-beta.15(playwright@1.46.0)(vite@7.1.9(jiti@1.21.6)(tsx@4.17.0)(yaml@2.5.0))(vitest@4.0.0-beta.15)':
+  '@vitest/browser-playwright@4.0.0-beta.15(playwright@1.55.1)(vite@7.1.9(jiti@1.21.6)(tsx@4.17.0)(yaml@2.5.0))(vitest@4.0.0-beta.15)':
     dependencies:
       '@vitest/browser': 4.0.0-beta.15(vite@7.1.9(jiti@1.21.6)(tsx@4.17.0)(yaml@2.5.0))(vitest@4.0.0-beta.15)
       '@vitest/mocker': 4.0.0-beta.15(vite@7.1.9(jiti@1.21.6)(tsx@4.17.0)(yaml@2.5.0))
-      playwright: 1.46.0
+      playwright: 1.55.1
       tinyrainbow: 3.0.3
       vitest: 4.0.0-beta.15(@vitest/browser-playwright@4.0.0-beta.15)(jiti@1.21.6)(tsx@4.17.0)(yaml@2.5.0)
     transitivePeerDependencies:
@@ -5533,7 +5517,7 @@ snapshots:
       '@vue/shared': 3.4.35
       entities: 4.5.0
       estree-walker: 2.0.2
-      source-map-js: 1.2.0
+      source-map-js: 1.2.1
 
   '@vue/compiler-dom@3.4.35':
     dependencies:
@@ -5548,9 +5532,9 @@ snapshots:
       '@vue/compiler-ssr': 3.4.35
       '@vue/shared': 3.4.35
       estree-walker: 2.0.2
-      magic-string: 0.30.17
-      postcss: 8.4.41
-      source-map-js: 1.2.0
+      magic-string: 0.30.19
+      postcss: 8.5.6
+      source-map-js: 1.2.1
 
   '@vue/compiler-ssr@3.4.35':
     dependencies:
@@ -6591,10 +6575,6 @@ snapshots:
     dependencies:
       yallist: 3.1.1
 
-  magic-string@0.30.17:
-    dependencies:
-      '@jridgewell/sourcemap-codec': 1.5.0
-
   magic-string@0.30.19:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
@@ -6682,8 +6662,6 @@ snapshots:
       thenify-all: 1.6.0
 
   nanoid@3.3.11: {}
-
-  nanoid@3.3.7: {}
 
   natural-compare-lite@1.4.0: {}
 
@@ -6847,11 +6825,11 @@ snapshots:
       mlly: 1.7.1
       pathe: 1.1.2
 
-  playwright-core@1.46.0: {}
+  playwright-core@1.55.1: {}
 
-  playwright@1.46.0:
+  playwright@1.55.1:
     dependencies:
-      playwright-core: 1.46.0
+      playwright-core: 1.55.1
     optionalDependencies:
       fsevents: 2.3.2
 
@@ -6872,12 +6850,6 @@ snapshots:
     dependencies:
       cssesc: 3.0.0
       util-deprecate: 1.0.2
-
-  postcss@8.4.41:
-    dependencies:
-      nanoid: 3.3.7
-      picocolors: 1.0.1
-      source-map-js: 1.2.0
 
   postcss@8.5.6:
     dependencies:
@@ -7166,8 +7138,6 @@ snapshots:
 
   slashes@3.0.12: {}
 
-  source-map-js@1.2.0: {}
-
   source-map-js@1.2.1: {}
 
   source-map@0.8.0-beta.0:
@@ -7450,7 +7420,7 @@ snapshots:
       vite: 7.1.9(jiti@1.21.6)(tsx@4.17.0)(yaml@2.5.0)
       why-is-node-running: 2.3.0
     optionalDependencies:
-      '@vitest/browser-playwright': 4.0.0-beta.15(playwright@1.46.0)(vite@7.1.9(jiti@1.21.6)(tsx@4.17.0)(yaml@2.5.0))(vitest@4.0.0-beta.15)
+      '@vitest/browser-playwright': 4.0.0-beta.15(playwright@1.55.1)(vite@7.1.9(jiti@1.21.6)(tsx@4.17.0)(yaml@2.5.0))(vitest@4.0.0-beta.15)
     transitivePeerDependencies:
       - jiti
       - less
