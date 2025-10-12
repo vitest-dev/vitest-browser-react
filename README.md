@@ -44,8 +44,10 @@ test('should increment counter', async () => {
 ```ts
 // vitest.config.ts
 import { defineConfig } from 'vitest/config'
+import react from '@vitejs/plugin-react'
 
 export default defineConfig({
+  plugins: [react()],
   test: {
     setupFiles: ['./setup-file.ts'],
     browser: {
@@ -58,6 +60,8 @@ export default defineConfig({
 // add an import at the top of your setup file so TypeScript can pick up types
 import 'vitest-browser-react'
 ```
+
+> 💡 Note that `@vitejs/plugin-react` is recommended for some of React's features to work (like auto importing of `React`). You can also configure [JSX](https://vite.dev/guide/features#jsx) options manually.
 
 ```tsx
 import { page } from 'vitest/browser'
