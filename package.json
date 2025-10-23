@@ -41,8 +41,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch --sourcemap",
+    "build": "tsdown",
+    "dev": "tsdown --watch --sourcemap",
     "test": "vitest",
     "publish-ci": "tsx scripts/publish-ci.ts",
     "release": "tsx scripts/release.ts",
@@ -77,7 +77,7 @@
     "react": "^19.0.0",
     "react-aria-components": "^1.10.1",
     "react-dom": "^19.0.0",
-    "tsup": "^8.2.4",
+    "tsdown": "^0.15.9",
     "tsx": "^4.17.0",
     "typescript": "^5.5.4",
     "vitest": "^4.0.0-beta.15",
