@@ -92,7 +92,7 @@ configure({
 
 The main difference is that `vitest-browser-react` integrates with Vitest Browser Mode locators: https://github.com/vitest-dev/vitest/discussions/5828#discussioncomment-10314822
 
-Locators are nice because they provide an intuitive and ergonomic way to query and make assertions:
+One small advantage is that locators are built-in, so this package is just a very lightweight wrapper around Browser Mode, but locators are also good because they provide an intuitive and ergonomic way to query and make assertions:
 
 ```ts
 await expect.element(page.getByRole('button')).toBeVisible()
@@ -112,7 +112,7 @@ One nice thing that comes out of this approach is that Vitest can keep querying 
 
 ```ts
 const button = await screen.findByRole('button')
-// it's possible that the element is in the dom, but its state is invalid
+// it's possible that the element is in the dom with an invalid state
 // but it will be valid in a few render cycles
 expect(button).toBeVisible()
 
@@ -138,7 +138,7 @@ await userEvent.click(button)
 
 In short, this library integrates well with Vitest Browser Locators API, and that is why it's recommended for the Browser Mode, although you can continue using testing-library if you prefer.
 
-One of the reasons why the Vitest team decided to add our own wrapper was because it became confusing to document all the differences with how testing-library works in Vitest: the dom/render libraries work the same, but user-event is not (except sometimes, such as with the preview provider). Streamlining the API made it easier to explain and more approachable for newcomers.
+One of the reasons why the Vitest team decided to add our own wrapper was because it became confusing to document all the differences with how testing-library works in Vitest: the dom/render libraries work the same, but user-event is not (except sometimes, such as with the preview provider). Streamlining the API makes it easier to explain and is more approachable for newcomers.
 
 ## Special thanks
 
