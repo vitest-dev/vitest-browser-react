@@ -5,10 +5,18 @@ import { playwright } from '@vitest/browser-playwright'
 export default defineConfig({
   plugins: [react()],
   optimizeDeps: { include: ['vitest-browser-react'] },
-  resolve: {
-    conditions: process.env.TEST_PROD ? [] : ['vdev'],
-  },
   test: {
+    projects: [
+      {
+        extends: true,
+        test: { name: 'prod' },
+      },
+      {
+        extends: true,
+        test: { name: 'dev' },
+        resolve: { conditions: ['vdev'] },
+      },
+    ],
     printConsoleTrace: true,
     browser: {
       enabled: true,
