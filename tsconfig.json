@@ -1,9 +1,7 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "jsx": "preserve",
-    "jsxFactory": "React.createElement",
-    "jsxImportSource": "react",
+    "jsx": "react-jsx",
     "lib": ["esnext", "dom", "DOM.Iterable"],
     "module": "ESNext",
     "moduleResolution": "Bundler",
