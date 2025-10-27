@@ -4,6 +4,10 @@ import { playwright } from '@vitest/browser-playwright'
 
 export default defineConfig({
   plugins: [react()],
+  optimizeDeps: {
+    // needed for stress test
+    include: ['vitest-browser-react'],
+  },
   test: {
     printConsoleTrace: true,
     browser: {
