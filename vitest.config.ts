@@ -5,7 +5,7 @@ import { playwright } from '@vitest/browser-playwright'
 export default defineConfig({
   plugins: [react()],
   optimizeDeps: {
-    // needed for stress test
+    // needed for production test
     include: ['vitest-browser-react'],
   },
   test: {
