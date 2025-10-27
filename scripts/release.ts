@@ -18,7 +18,7 @@ try {
     await $`git update-ref refs/heads/release refs/heads/main`
     await $`git push origin release`
   }
-  console.log('New release is ready, waiting for conformation at https://github.com/vitest-dev/vitest-browser-react/actions')
+  console.log('New release is ready, waiting for conformation at https://github.com/vitest-community/vitest-browser-react/actions')
 }
 catch (err) {
   console.error(err)

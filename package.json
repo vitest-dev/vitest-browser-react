@@ -7,13 +7,13 @@
   "author": "Vitest Team",
   "license": "MIT",
   "funding": "https://opencollective.com/vitest",
-  "homepage": "https://github.com/vitest-dev/vitest-browser-react#readme",
+  "homepage": "https://github.com/vitest-community/vitest-browser-react#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vitest-dev/vitest-browser-react.git"
+    "url": "git+https://github.com/vitest-community/vitest-browser-react.git"
   },
   "bugs": {
-    "url": "https://github.com/vitest-dev/vitest-browser-react/issues"
+    "url": "https://github.com/vitest-community/vitest-browser-react/issues"
   },
   "keywords": [
     "react",
@@ -54,7 +54,7 @@
     "@types/react-dom": "^18.0.0 || ^19.0.0",
     "react": "^18.0.0 || ^19.0.0",
     "react-dom": "^18.0.0 || ^19.0.0",
-    "vitest": "^4.0.0-0"
+    "vitest": "^4.0.0"
   },
   "peerDependenciesMeta": {
     "@types/react": {

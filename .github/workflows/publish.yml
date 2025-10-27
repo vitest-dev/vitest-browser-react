@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   publish:
-    if: github.repository == 'vitest-dev/vitest-browser-react'
+    if: github.repository == 'vitest-community/vitest-browser-react'
     runs-on: ubuntu-latest
     environment: Release
     steps:
