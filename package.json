@@ -23,10 +23,12 @@
   ],
   "exports": {
     ".": {
+      "vdev": "./src/index.ts",
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
     "./pure": {
+      "vdev": "./src/pure.tsx",
       "types": "./dist/pure.d.ts",
       "default": "./dist/pure.js"
     },
@@ -43,7 +45,8 @@
   "scripts": {
     "build": "tsdown",
     "dev": "tsdown --watch --sourcemap",
-    "test": "vitest",
+    "test:dev": "vitest",
+    "test:prod": "TEST_PROD=1 vitest",
     "publish-ci": "tsx scripts/publish-ci.ts",
     "release": "tsx scripts/release.ts",
     "lint": "eslint --cache .",

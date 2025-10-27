@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest'
 import type { PropsWithChildren } from 'react'
 import React from 'react'
-import { renderHook } from '../src/index'
+import { renderHook } from 'vitest-browser-react'
 import { useCounter } from './fixtures/useCounter'
 
 test('should increment counter', async () => {
