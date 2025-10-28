@@ -23,21 +23,34 @@
   ],
   "exports": {
     ".": {
+      "vdev": "./src/index.ts",
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
     "./pure": {
+      "vdev": "./src/pure.tsx",
       "types": "./dist/pure.d.ts",
       "default": "./dist/pure.js"
     },
     "./package.json": "./package.json"
   },
+  "publishConfig": {
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "./pure": {
+        "types": "./dist/pure.d.ts",
+        "default": "./dist/pure.js"
+      },
+      "./package.json": "./package.json"
+    }
+  },
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
-    "*.d.ts",
-    "*.mjs",
     "dist"
   ],
   "scripts": {
