@@ -6,25 +6,34 @@ import ReactDOMClient from 'react-dom/client'
 
 const { debug, getElementLocatorSelectors } = utils
 
+const activeActs = new Set<string>()
+
+function setActEnvironment(env: boolean | undefined): void {
+  (globalThis as any).IS_REACT_ACT_ENVIRONMENT = env
+}
+
+// @ts-expect-error unstable_act is not typed, but exported
+const _act = React.act || React.unstable_act
+
 // we call act only when rendering to flush any possible effects
 // usually the async nature of Vitest browser mode ensures consistency,
 // but rendering is sync and controlled by React directly
-async function act(cb: () => unknown) {
-  // @ts-expect-error unstable_act is not typed, but exported
-  const _act = React.act || React.unstable_act
-  if (typeof _act !== 'function') {
-    cb()
-  }
-  else {
-    (globalThis as any).IS_REACT_ACT_ENVIRONMENT = true
+const act = typeof _act !== 'function'
+  ? async (cb: () => unknown) => { await cb() }
+  : async (cb: () => unknown) => {
+    setActEnvironment(true)
+    const actId = crypto.randomUUID()
+    activeActs.add(actId)
     try {
       await _act(cb)
     }
     finally {
-      ;(globalThis as any).IS_REACT_ACT_ENVIRONMENT = false
+      activeActs.delete(actId)
+      if (!activeActs.size) {
+        setActEnvironment(false)
+      }
     }
   }
-}
 
 export interface RenderResult extends LocatorSelectors {
   container: HTMLElement
