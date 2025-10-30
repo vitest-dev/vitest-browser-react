@@ -35,7 +35,11 @@ test('waits for suspended boundaries', async ({ onTestFinished }) => {
     vi.useRealTimers()
   })
 
-  const result = render(<SuspendedHelloWorld name="Vitest" />, {
+  const fakeCacheLoadPromise = new Promise<void>((resolve) => {
+    setTimeout(() => resolve(), 100)
+  })
+
+  const result = render(<SuspendedHelloWorld name="Vitest" promise={fakeCacheLoadPromise} />, {
     wrapper: ({ children }) => (
       <Suspense fallback={<div>Suspended!</div>}>{children}</Suspense>
     ),
@@ -43,5 +47,5 @@ test('waits for suspended boundaries', async ({ onTestFinished }) => {
   await expect.element(page.getByText('Suspended!')).toBeInTheDocument()
   vi.runAllTimers()
   await result
-  await expect.element(page.getByText('Hello Vitest')).toBeInTheDocument()
+  expect(page.getByText('Hello Vitest')).toBeInTheDocument()
 })
