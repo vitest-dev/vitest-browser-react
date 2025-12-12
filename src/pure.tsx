@@ -6,10 +6,14 @@ import ReactDOMClient from 'react-dom/client'
 
 const { debug, getElementLocatorSelectors } = utils
 
-const activeActs = new Set<string>()
+let activeActs = 0
 
 function setActEnvironment(env: boolean | undefined): void {
   (globalThis as any).IS_REACT_ACT_ENVIRONMENT = env
+}
+
+function updateActEnvironment(): void {
+  setActEnvironment(activeActs > 0)
 }
 
 // @ts-expect-error unstable_act is not typed, but exported
@@ -21,17 +25,14 @@ const _act = React.act || React.unstable_act
 const act = typeof _act !== 'function'
   ? async (cb: () => unknown) => { await cb() }
   : async (cb: () => unknown) => {
-    setActEnvironment(true)
-    const actId = crypto.randomUUID()
-    activeActs.add(actId)
+    activeActs++
+    updateActEnvironment()
     try {
       await _act(cb)
     }
     finally {
-      activeActs.delete(actId)
-      if (!activeActs.size) {
-        setActEnvironment(false)
-      }
+      activeActs--
+      updateActEnvironment()
     }
   }
 
