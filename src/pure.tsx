@@ -1,10 +1,15 @@
 import type { Locator, LocatorSelectors, PrettyDOMOptions } from 'vitest/browser'
-import { page, utils } from 'vitest/browser'
+import { page, server, utils } from 'vitest/browser'
 import React from 'react'
 import type { Container } from 'react-dom/client'
 import ReactDOMClient from 'react-dom/client'
+import { nanoid } from '@vitest/utils/helpers'
 
 const { debug, getElementLocatorSelectors } = utils
+
+function getTestIdAttribute() {
+  return server.config.browser.locators.testIdAttribute
+}
 
 let activeActs = 0
 
@@ -74,7 +79,7 @@ export async function render(
     // default to document.body instead of documentElement to avoid output of potentially-large
     // head elements (such as JSS style blocks) in debug output
     baseElement = document.body
-    document.body.dataset.testid = 'test-body'
+    document.body.setAttribute(getTestIdAttribute(), nanoid())
   }
 
   if (!container) {
