@@ -74,6 +74,7 @@ export async function render(
     // default to document.body instead of documentElement to avoid output of potentially-large
     // head elements (such as JSS style blocks) in debug output
     baseElement = document.body
+    document.body.dataset.testid = 'test-body'
   }
 
   if (!container) {
