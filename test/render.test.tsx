@@ -9,6 +9,8 @@ import { Counter } from './fixtures/Counter'
 import { SuspendedHelloWorld } from './fixtures/SuspendedHelloWorld'
 import { ComponentThatChanges } from './fixtures/ComponentThatChanges'
 
+vi.mock('@vitest/utils/helpers', { spy: true })
+
 test('renders simple component', async () => {
   const screen = await render(<HelloWorld />)
   await expect.element(page.getByText('Hello World')).toBeVisible()
@@ -56,7 +58,6 @@ test('should use default testid as the root selector', async ({ skip, task }) =>
   if (task.file.projectName === 'prod (chromium)') {
     skip('Cannot mock nanoid in prod build')
   }
-  vi.mock('@vitest/utils/helpers', { spy: true })
   vi.mocked(vitestUtilsHelpersModule.nanoid).mockImplementation(
     () => 'Random id',
   )
@@ -77,7 +78,7 @@ test('should use default testid as the root selector', async ({ skip, task }) =>
   vi.mocked(vitestUtilsHelpersModule.nanoid).mockRestore()
 })
 
-test('Should correctly select an element after dom changes', async () => {
+test('should correctly select an element after dom changes', async () => {
   const stuff = document.createElement('div')
   stuff.textContent = 'DOM content that might change'
   document.body.appendChild(stuff)
