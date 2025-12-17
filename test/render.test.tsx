@@ -3,9 +3,13 @@ import { page, userEvent } from 'vitest/browser'
 import { Button } from 'react-aria-components'
 import { Suspense } from 'react'
 import { render } from 'vitest-browser-react'
+import * as vitestUtilsHelpersModule from '@vitest/utils/helpers'
 import { HelloWorld } from './fixtures/HelloWorld'
 import { Counter } from './fixtures/Counter'
 import { SuspendedHelloWorld } from './fixtures/SuspendedHelloWorld'
+import { ComponentThatChanges } from './fixtures/ComponentThatChanges'
+
+vi.mock('@vitest/utils/helpers', { spy: true })
 
 test('renders simple component', async () => {
   const screen = await render(<HelloWorld />)
@@ -48,4 +52,41 @@ test('waits for suspended boundaries', async ({ onTestFinished }) => {
   vi.runAllTimers()
   await result
   expect(page.getByText('Hello Vitest')).toBeInTheDocument()
+})
+
+test('should use default testid as the root selector', async ({ skip, task }) => {
+  if (task.file.projectName === 'prod (chromium)') {
+    skip('Cannot mock nanoid in prod build')
+  }
+  vi.mocked(vitestUtilsHelpersModule.nanoid).mockImplementation(
+    () => 'Random id',
+  )
+
+  const stuff = document.createElement('div')
+  stuff.textContent = 'DOM content that might change'
+  document.body.appendChild(stuff)
+  setTimeout(() => {
+    stuff.textContent = 'Changed'
+  }, 1000)
+
+  const screen = await render(<div>Render</div>)
+
+  const selector = page.elementLocator(screen.baseElement).selector
+
+  expect(selector).toEqual('internal:testid=[data-testid="Random id"s]')
+
+  vi.mocked(vitestUtilsHelpersModule.nanoid).mockRestore()
+})
+
+test('should correctly select an element after dom changes', async () => {
+  const stuff = document.createElement('div')
+  stuff.textContent = 'DOM content that might change'
+  document.body.appendChild(stuff)
+  setTimeout(() => {
+    stuff.textContent = 'Changed'
+  }, 1000)
+
+  const screen = await render(<ComponentThatChanges />)
+
+  await expect.element(screen.getByText('Hello Vitest!')).toBeVisible()
 })
